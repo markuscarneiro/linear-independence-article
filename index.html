@@ -458,8 +458,28 @@
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin: 24px 0;
+            gap: 32px;
+            margin: 32px 0;
+        }
+        
+        .grid-2 > div {
+            min-height: 500px;
+        }
+        
+        @media (max-width: 1024px) {
+            .grid-2 { 
+                grid-template-columns: 1fr; 
+                gap: 24px;
+            }
+            .grid-2 > div {
+                min-height: 450px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .grid-2 > div {
+                min-height: 400px;
+            }
         }
         
         .conclusion {
@@ -1043,7 +1063,9 @@ PE(pos, 2i+1) = cos(pos / 10000^(2i/d_model))
             title: 'Variáveis Independentes',
             xaxis: {title: 'x', gridcolor: '#f6f8fa'},
             yaxis: {title: 'Valor', gridcolor: '#f6f8fa'},
-            height: 400
+            height: 450,
+            responsive: true,
+            autosize: true
         });
 
         // 1B: Dependentes
@@ -1068,7 +1090,9 @@ PE(pos, 2i+1) = cos(pos / 10000^(2i/d_model))
             title: 'Variáveis Dependentes',
             xaxis: {title: 'x', gridcolor: '#f6f8fa'},
             yaxis: {title: 'Valor', gridcolor: '#f6f8fa'},
-            height: 400
+            height: 450,
+            responsive: true,
+            autosize: true
         });
 
         // 2: Multicolinearidade
@@ -1119,8 +1143,10 @@ PE(pos, 2i+1) = cos(pos / 10000^(2i/d_model))
             title: 'Projeção 3D → 2D',
             xaxis: {title: 'Dimensão 1', gridcolor: '#f6f8fa'},
             yaxis: {title: 'Dimensão 2', gridcolor: '#f6f8fa'},
-            height: 400,
-            showlegend: false
+            height: 450,
+            showlegend: false,
+            responsive: true,
+            autosize: true
         });
 
         // 3B: Matriz de Correlação
@@ -1142,8 +1168,10 @@ PE(pos, 2i+1) = cos(pos / 10000^(2i/d_model))
             title: 'Matriz de Correlação',
             xaxis: {title: 'Features', tickvals: [0, 1, 2], ticktext: ['Var1', 'Var2', 'Var3']},
             yaxis: {title: 'Features', tickvals: [0, 1, 2], ticktext: ['Var1', 'Var2', 'Var3']},
-            height: 400,
-            showlegend: false
+            height: 450,
+            showlegend: false,
+            responsive: true,
+            autosize: true
         });
 
         // 4A: Propriedades trigonométricas
@@ -1166,7 +1194,9 @@ PE(pos, 2i+1) = cos(pos / 10000^(2i/d_model))
             title: 'Periodicidade: Padrões Cíclicos Naturais',
             xaxis: {title: 'x (radianos)', gridcolor: '#f6f8fa'},
             yaxis: {title: 'Valor', gridcolor: '#f6f8fa'},
-            height: 400
+            height: 450,
+            responsive: true,
+            autosize: true
         });
 
         // 4B: Feature engineering para horas
@@ -1188,7 +1218,9 @@ PE(pos, 2i+1) = cos(pos / 10000^(2i/d_model))
             title: 'Feature Engineering: Hora → Sin/Cos',
             xaxis: {title: 'Hora (0-23)', gridcolor: '#f6f8fa'},
             yaxis: {title: 'Valor Transformado', gridcolor: '#f6f8fa'},
-            height: 400
+            height: 450,
+            responsive: true,
+            autosize: true
         });
 
         // 5: Positional Encoding
