@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Da Matemática ao ChatGPT: Como a Independência Linear Conecta Tudo</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.18.2/plotly.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.8;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .article-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+        
+        .title {
+            font-size: 2.8em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            font-style: italic;
+        }
+        
+        .author-info {
+            margin-top: 30px;
+            font-size: 1.1em;
+            opacity: 0.8;
+        }
+        
+        .content {
+            padding: 50px 40px;
+        }
+        
+        .abstract {
+            background: #f8f9fa;
+            border-left: 5px solid #3498db;
+            padding: 30px;
+            margin: 40px 0;
+            border-radius: 5px;
+            font-style: italic;
+            font-size: 1.1em;
+        }
+        
+        .abstract h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-style: normal;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin: 50px 0 25px 0;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            color: #34495e;
+            font-size: 1.4em;
+            margin: 35px 0 20px 0;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            text-align: justify;
+            font-size: 1.1em;
+        }
+        
+        .plot-container {
+            margin: 40px 0;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .plot-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .plot-description {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 1em;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-size: 0.95em;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #ff9800;
+            margin: 25px 0;
+            font-weight: 500;
+        }
+        
+        .equation {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-family: 'Times New Roman', serif;
+            font-size: 1.1em;
+            margin: 20px 0;
+            border: 1px solid #dee2e6;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .conclusion {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 40px;
+            margin: 50px 0 0 0;
+            border-radius: 10px;
+        }
+        
+        .conclusion h2 {
+            color: white;
+            border-bottom: 3px solid rgba(255,255,255,0.3);
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            font-style: italic;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .content { padding: 30px 20px; }
+            .header { padding: 40px 20px; }
+            .title { font-size: 2.2em; }
+            .subtitle { font-size: 1.1em; }
+        }
+        
+        /* Estilo para listas */
+        ul, ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        /* Estilo para citações */
+        blockquote {
+            border-left: 4px solid #3498db;
+            padding-left: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="article-container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1 class="title">Da Matemática ao ChatGPT</h1>
+            <p class="subtitle">Como a Independência Linear Conecta Tudo</p>
+            <div class="author-info">
+                Um estudo sobre as conexões fundamentais entre álgebra linear e inteligência artificial moderna
+            </div>
+        </div>
+        
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="content">
+            <!-- ABSTRACT -->
+            <div class="abstract">
+                <h3>🎯 Resumo</h3>
+                <p>Este artigo explora como o conceito fundamental de independência linear na matemática conecta áreas aparentemente distintas: desde a detecção de multicolinearidade em ciência de dados até os mecanismos de positional encoding que permitem ao ChatGPT compreender a ordem das palavras. Através de visualizações interativas e exemplos práticos, demonstramos que a mesma matemática que governa a limpeza de dados redundantes também fundamenta os avanços mais espetaculares da inteligência artificial moderna.</p>
+            </div>
+            
+            <!-- INTRODUÇÃO -->
+            <h2>🚀 Introdução: Uma Jornada Inesperada</h2>
+            
+            <p>Imagine descobrir que o mesmo conceito matemático que explica por que algumas variáveis são redundantes em seus dados também é a base de como o ChatGPT entende a ordem das palavras. Esta é a história da <strong>independência linear</strong> - um conceito que parece abstrato, mas que secretamente governa desde a detecção de fraudes até a revolução dos transformers.</p>
+            
+            <p>Em nossa era de big data e inteligência artificial, frequentemente tratamos a matemática como uma ferramenta isolada, aplicada pontualmente para resolver problemas específicos. Porém, uma análise mais profunda revela conexões surpreendentes entre conceitos fundamentais e suas aplicações revolucionárias.</p>
+            
+            <!-- CAPÍTULO 1 -->
+            <h2>📊 1. O Conceito Fundamental</h2>
+            
+            <h3>O Que É Independência Linear?</h3>
+            
+            <p>Um subespaço vetorial é fundamentalmente um conjunto de vetores que satisfaz três condições essenciais:</p>
+            
+            <ol>
+                <li><strong>Fechamento sob adição:</strong> A soma de dois vetores do subespaço permanece no subespaço</li>
+                <li><strong>Fechamento sob multiplicação escalar:</strong> Multiplicar um vetor por um número mantém o resultado no subespaço</li>
+                <li><strong>Presença do vetor nulo:</strong> O vetor zero sempre está presente</li>
+            </ol>
+            
+            <p>Mas aqui está a revelação surpreendente: <strong>funções também podem ser vetores</strong>. Sin(x) e cos(x) não são apenas curvas no plano - são vetores em um espaço de dimensão infinita chamado espaço funcional.</p>
+            
+            <h3>O Teste Decisivo</h3>
+            
+            <p>Duas funções (ou variáveis) são <strong>linearmente independentes</strong> se não conseguimos encontrar uma combinação linear que resulte em zero para todos os valores. Em outras palavras:</p>
+            
+            <blockquote>
+                <em>"Não existe uma 'receita fixa' que faça essas variáveis se cancelarem completamente"</em>
+            </blockquote>
+            
+            <!-- FIGURA 1 -->
+            <div class="plot-container">
+                <div class="plot-title">Figura 1: Independência vs Dependência Linear</div>
+                <div class="grid-2">
+                    <div>
+                        <div id="plot1a"></div>
+                        <div class="plot-description">
+                            <strong>✅ Independentes:</strong> sin(x) e cos(x) - A área sombreada tem "volume" e não passa sempre por zero.
+                        </div>
+                    </div>
+                    <div>
+                        <div id="plot1b"></div>
+                        <div class="plot-description">
+                            <strong>❌ Dependentes:</strong> sin(x) e -sin(x) - A combinação sempre resulta em zero.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <p>Quando plotamos sin(x) e cos(x), vemos que suas combinações lineares criam uma área sombreada que <strong>não passa sempre por zero</strong>. Isso é a prova visual de que são independentes - cada uma carrega informação única e irredutível.</p>
+            
+            <!-- CAPÍTULO 2 -->
+            <h2>🔍 2. A Conexão com Ciência de Dados</h2>
+            
+            <h3>Multicolinearidade: O Inimigo Oculto</h3>
+            
+            <p>Na detecção de fraudes, imagine que você tem estas features:</p>
+            
+            <ul>
+                <li><code>valor_transacao</code>: R$ 500</li>
+                <li><code>valor_em_dolares</code>: $100 (mesmo valor convertido)</li>
+                <li><code>valor_multiplicado_por_2</code>: R$ 1000</li>
+            </ul>
+            
+            <p>Estas variáveis são <strong>linearmente dependentes</strong> - uma é sempre uma transformação matemática das outras. O problema? Seu modelo de machine learning acha que o valor da transação é 3x mais importante do que realmente é, porque a mesma informação aparece disfarçada três vezes.</p>
+            
+            <!-- FIGURA 2 -->
+            <div class="plot-container">
+                <div class="plot-title">Figura 2: Multicolinearidade em Dados Reais</div>
+                <div id="plot2"></div>
+                <div class="code-block">
+# Exemplo de features com multicolinearidade
+valor_brl = [100, 200, 300, 400, 500]
+valor_usd = [valor/5 for valor in valor_brl]  # Sempre BRL/5
+valor_2x = [valor*2 for valor in valor_brl]   # Sempre BRL*2
+
+# Correlação perfeita = dependência linear!
+</div>
+                <div class="plot-description">
+                    Esta visualização demonstra como variáveis dependentes criam redundância nos dados, levando a instabilidade nos modelos de machine learning.
+                </div>
+            </div>
+            
+            <h3>A Solução Matemática</h3>
+            
+            <p>A independência linear nos ensina a identificar e remover essa redundância:</p>
+            
+            <div class="code-block">
+# Detecta multicolinearidade (dependência linear)
+correlation_matrix = df.corr()
+# Se correlação > 0.9, são quase linearmente dependentes
+# Remove uma delas antes de treinar
+</div>
+            
+            <p>O resultado? Modelos mais estáveis, interpretáveis e que generalizam melhor.</p>
+            
+            <!-- CAPÍTULO 3 -->
+            <h2>🌐 3. Visualizando o Invisível</h2>
+            
+            <h3>O Desafio das Múltiplas Dimensões</h3>
+            
+            <p>Quando temos 2 features, nossos dados "vivem" em R² (um plano). Com 3 features, em R³ (um volume). Mas e com 100 features? Nossos dados existem em R¹⁰⁰ - um hiperespaço que não conseguimos visualizar diretamente.</p>
+            
+            <p>A dimensão de um espaço é determinada pelo <strong>número de features linearmente independentes</strong>. Se você tem 10 features mas 3 são redundantes, seus dados realmente vivem em R⁷, não R¹⁰.</p>
+            
+            <!-- FIGURA 3 -->
+            <div class="plot-container">
+                <div class="plot-title">Figura 3: Visualizando Alta Dimensionalidade</div>
+                <div class="grid-2">
+                    <div>
+                        <div id="plot3a"></div>
+                        <div class="plot-description">
+                            <strong>Projeção 3D → 2D:</strong> Perdemos informação, mas mantemos a estrutura essencial dos dados.
+                        </div>
+                    </div>
+                    <div>
+                        <div id="plot3b"></div>
+                        <div class="plot-description">
+                            <strong>Matriz de Correlação:</strong> Visualiza dependências entre todas as variáveis simultaneamente.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Estratégias para "Ver" o Invisível</h3>
+            
+            <p>Como visualizamos alta dimensionalidade? Através de truques matemáticos:</p>
+            
+            <ul>
+                <li><strong>PCA:</strong> Projeta 100 dimensões em 2D mantendo a informação essencial</li>
+                <li><strong>t-SNE:</strong> Preserva relações de proximidade em dimensões menores</li>
+                <li><strong>Gráficos de correlação:</strong> Mostram dependências entre todas as variáveis</li>
+            </ul>
+            
+            <p>É como analisar sombras de um objeto 4D para entender sua forma real.</p>
+            
+            <!-- CAPÍTULO 4 -->
+            <h2>🌊 4. Por Que Sin e Cos São Especiais?</h2>
+            
+            <h3>Mais Que Pedagogia</h3>
+            
+            <p>Sin(x) e cos(x) não são escolhas didáticas aleatórias. São as <strong>funções mais fundamentais</strong> para representar padrões cíclicos na natureza:</p>
+            
+            <ul>
+                <li><strong>Música:</strong> MP3 usa Transformada de Fourier (decomposição em sin/cos)</li>
+                <li><strong>Imagens:</strong> JPEG comprime usando componentes trigonométricas</li>
+                <li><strong>Séries temporais:</strong> Sazonalidade em vendas segue padrões sin/cos</li>
+                <li><strong>Engenharia de features:</strong> Capturar ciclicidade temporal</li>
+            </ul>
+            
+            <!-- FIGURA 4 -->
+            <div class="plot-container">
+                <div class="plot-title">Figura 4: Propriedades Especiais das Funções Trigonométricas</div>
+                <div class="grid-2">
+                    <div>
+                        <div id="plot4a"></div>
+                        <div class="plot-description">
+                            <strong>Periodicidade:</strong> Sin e cos capturam padrões cíclicos naturais - essencial para dados temporais.
+                        </div>
+                    </div>
+                    <div>
+                        <div id="plot4b"></div>
+                        <div class="plot-description">
+                            <strong>Feature Engineering:</strong> Transformação de hora linear em features cíclicas.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="code-block">
+# Transformar hora em features cíclicas
+df['hora_sin'] = np.sin(2 * np.pi * df['hora'] / 24)
+df['hora_cos'] = np.cos(2 * np.pi * df['hora'] / 24)
+# Agora 23h está matematicamente "perto" de 1h
+</div>
+            
+            <h3>A Base Universal</h3>
+            
+            <p>Sin e cos são especiais porque:</p>
+            
+            <ul>
+                <li><strong>Limitadas:</strong> Sempre entre -1 e 1</li>
+                <li><strong>Periódicas:</strong> Capturam ciclos naturais</li>
+                <li><strong>Suaves:</strong> Matematicamente bem comportadas</li>
+                <li><strong>Ortogonais:</strong> Perfeitamente independentes</li>
+            </ul>
+            
+            <!-- CAPÍTULO 5 -->
+            <h2>🤖 5. A Revolução dos Transformers</h2>
+            
+            <h3>O Problema da Ordem</h3>
+            
+            <p>Aqui está onde tudo se conecta de forma espetacular. O paper "Attention is All You Need" enfrentava um problema fundamental: como fazer o modelo entender que "O gato subiu no telhado" é diferente de "Telhado no subiu gato o"?</p>
+            
+            <h3>A Solução Trigonométrica</h3>
+            
+            <p>A resposta estava na independência linear de sin e cos:</p>
+            
+            <div class="equation">
+                PE(pos, 2i) = sin(pos / 10000^(2i/d_model))<br>
+                PE(pos, 2i+1) = cos(pos / 10000^(2i/d_model))
+            </div>
+            
+            <!-- FIGURA 5 -->
+            <div class="plot-container">
+                <div class="plot-title">Figura 5: Positional Encoding nos Transformers</div>
+                <div id="plot5"></div>
+                <div class="code-block">
+# Positional Encoding do Transformer
+PE(pos, 2i) = sin(pos / 10000^(2i/d_model))
+PE(pos, 2i+1) = cos(pos / 10000^(2i/d_model))
+
+# Cada posição tem uma "assinatura" trigonométrica única!
+</div>
+                <div class="plot-description">
+                    <strong>🎯 A Conexão:</strong> Diferentes frequências são linearmente independentes, permitindo que o modelo capture padrões de curta e longa distância simultaneamente.
+                </div>
+            </div>
+            
+            <p>Cada posição no texto recebe uma "assinatura" única baseada em múltiplas frequências trigonométricas. Diferentes frequências (1, 1/100, 1/10000) são <strong>linearmente independentes</strong>, permitindo que o modelo capture padrões de curta e longa distância simultaneamente.</p>
+            
+            <h3>Por Que Funciona</h3>
+            
+            <ol>
+                <li><strong>Determinístico:</strong> Mesma posição = mesma encoding sempre</li>
+                <li><strong>Suave:</strong> Posições próximas têm encodings similares</li>
+                <li><strong>Extrapolável:</strong> Funciona para textos maiores que os do treinamento</li>
+                <li><strong>Eficiente:</strong> Não precisa treinar esses parâmetros</li>
+            </ol>
+            
+            <div class="highlight-box">
+                <strong>🚀 Revelação:</strong> O ChatGPT entende ordem das palavras porque sin e cos são linearmente independentes!
+            </div>
+            
+            <!-- FIGURA 6 -->
+            <div class="plot-container">
+                <div class="plot-title">Figura 6: A Grande Conexão - Síntese dos Conceitos</div>
+                <div id="plot6"></div>
+                <div class="plot-description">
+                    <strong>🔗 Síntese:</strong> O mesmo conceito matemático governa desde limpeza de dados até a revolução da IA moderna. Diferentes componentes de frequência (sin/cos) permitem representar padrões complexos de forma independente e eficiente.
+                </div>
+            </div>
+            
+            <!-- CONCLUSÃO -->
+            <div class="conclusion">
+                <h2>🎯 Conclusão: A Elegância da Matemática</h2>
+                
+                <p>Esta jornada revela uma verdade profunda: <strong>conceitos matemáticos fundamentais conectam áreas aparentemente distintas</strong>. A mesma independência linear que:</p>
+                
+                <ul>
+                    <li>Nos ajuda a limpar dados redundantes</li>
+                    <li>Explica por que algumas variáveis são úteis e outras não</li>
+                    <li>Permite visualizar espaços de alta dimensão</li>
+                    <li>Fundamenta o processamento de sinais</li>
+                </ul>
+                
+                <p>...também é o que permite aos modelos de linguagem mais avançados do mundo entenderem a ordem das palavras e gerarem texto coerente.</p>
+                
+                <p>Quando você remove multicolinearidade de seus dados, está aplicando a mesma matemática que permite ao GPT-4 escrever este texto. Quando visualiza correlações em um heatmap, usa os princípios que governam como transformers processam linguagem natural.</p>
+                
+                <p><strong>A matemática não é apenas uma ferramenta</strong> - é a linguagem universal que conecta problemas práticos de ciência de dados com os avanços mais espetaculares da inteligência artificial moderna.</p>
+                
+                <p>Da próxima vez que detectar multicolinearidade em seus dados, lembre-se: você está tocando nos mesmos princípios matemáticos que fazem o ChatGPT funcionar. É pura elegância matemática em ação.</p>
+            </div>
+        </div>
+        
+        <!-- FOOTER -->
+        <div class="footer">
+            <p><em>"Em matemática, não existem coincidências - apenas conexões esperando para serem descobertas."</em></p>
+        </div>
+    </div>
+
+    <script>
+        // Configuração padrão para todos os gráficos
+        const defaultLayout = {
+            font: { family: 'Georgia, serif', size: 12 },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(248,249,250,1)',
+            margin: { t: 40, r: 20, b: 50, l: 50 }
+        };
+
+        // Dados base
+        const x = [];
+        for (let i = -6; i <= 6; i += 0.2) { x.push(i); }
+        const sinx = x.map(val => Math.sin(val));
+        const cosx = x.map(val => Math.cos(val));
+
+        // 1A: Independentes
+        const combination = x.map((val, i) => sinx[i] + cosx[i]);
+        
+        Plotly.newPlot('plot1a', [
+            {
+                x: x, y: sinx, name: 'sin(x)', type: 'scatter', mode: 'lines',
+                line: {color: '#3498db', width: 3}
+            },
+            {
+                x: x, y: cosx, name: 'cos(x)', type: 'scatter', mode: 'lines',
+                line: {color: '#e74c3c', width: 3}
+            },
+            {
+                x: x, y: combination, name: 'sin(x) + cos(x)', type: 'scatter', mode: 'lines',
+                fill: 'tonexty', fillcolor: 'rgba(46, 204, 113, 0.3)',
+                line: {color: '#2ecc71', width: 2}
+            }
+        ], {
+            ...defaultLayout,
+            title: 'Variáveis Independentes',
+            xaxis: {title: 'x'},
+            yaxis: {title: 'Valor'},
+            height: 400
+        });
+
+        // 1B: Dependentes
+        const minussinx = sinx.map(val => -val);
+        const zero = x.map(() => 0);
+
+        Plotly.newPlot('plot1b', [
+            {
+                x: x, y: sinx, name: 'sin(x)', type: 'scatter', mode: 'lines',
+                line: {color: '#3498db', width: 3}
+            },
+            {
+                x: x, y: minussinx, name: '-sin(x)', type: 'scatter', mode: 'lines',
+                line: {color: '#e74c3c', width: 3}
+            },
+            {
+                x: x, y: zero, name: 'sin(x) + (-sin(x)) = 0', type: 'scatter', mode: 'lines',
+                line: {color: '#2c3e50', width: 4, dash: 'dash'}
+            }
+        ], {
+            ...defaultLayout,
+            title: 'Variáveis Dependentes',
+            xaxis: {title: 'x'},
+            yaxis: {title: 'Valor'},
+            height: 400
+        });
+
+        // 2: Multicolinearidade
+        const valores_brl = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+        const valores_usd = valores_brl.map(v => v/5);
+        const valores_2x = valores_brl.map(v => v*2);
+
+        Plotly.newPlot('plot2', [
+            {
+                x: valores_brl, y: valores_usd, name: 'Valor USD (BRL/5)', 
+                type: 'scatter', mode: 'markers+lines',
+                marker: {size: 10, color: '#3498db'},
+                line: {width: 3}
+            },
+            {
+                x: valores_brl, y: valores_2x, name: 'Valor 2x (BRL×2)', 
+                type: 'scatter', mode: 'markers+lines', yaxis: 'y2',
+                marker: {size: 10, color: '#e74c3c'},
+                line: {width: 3}
+            }
+        ], {
+            ...defaultLayout,
+            title: 'Exemplo de Multicolinearidade em Dados Reais',
+            xaxis: {title: 'Valor BRL (Original)'},
+            yaxis: {title: 'Valor USD', side: 'left'},
+            yaxis2: {title: 'Valor 2x', side: 'right', overlaying: 'y'},
+            height: 450
+        });
+
+        // 3A: Projeção 3D para 2D
+        const n = 50;
+        const x3d = [], y3d = [], z3d = [];
+        for (let i = 0; i < n; i++) {
+            const t = (i / n) * 4 * Math.PI;
+            x3d.push(Math.cos(t));
+            y3d.push(Math.sin(t));
+            z3d.push(t * 0.1);
+        }
+
+        Plotly.newPlot('plot3a', [
+            {
+                x: x3d, y: y3d, type: 'scatter', mode: 'markers+lines',
+                marker: {size: 8, color: z3d, colorscale: 'Viridis', showscale: true},
+                line: {width: 3}
+            }
+        ], {
+            ...defaultLayout,
+            title: 'Projeção 3D → 2D',
+            xaxis: {title: 'Dimensão 1'},
+            yaxis: {title: 'Dimensão 2'},
+            height: 400
+        });
+
+        // 3B: Matriz de Correlação
+        const corrMatrix = [
+            [1.0, 0.1, 0.95],
+            [0.1, 1.0, 0.05],
+            [0.95, 0.05, 1.0]
+        ];
+
+        Plotly.newPlot('plot3b', [{
+            z: corrMatrix,
+            type: 'heatmap',
+            colorscale: [
+                [0, '#3498db'], [0.5, '#ecf0f1'], [1, '#e74c3c']
+            ],
+            showscale: true
+        }], {
+            ...defaultLayout,
